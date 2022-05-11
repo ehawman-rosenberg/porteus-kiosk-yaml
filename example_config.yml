@@ -1,0 +1,48 @@
+GLOBAL:
+  kiosk_config: https://yourdomainhere/client-configs.txt
+  browser: firefox
+  slide_duration: 90
+  root_password: This-Is-A-Password-Example
+  additional_components:
+    - uefi.zip
+    - fonts.zip
+GROUPS:
+  wired:
+    enable_file_protocol: yes
+    allow_icmp_protocol: yes
+    connection: wired
+    netmask: 255.255.255.0
+    default_gateway: 192.168.1.1
+    dns_server:
+      - 192.168.1.3
+      - 8.8.8.8
+    network_interface: eth0
+  external:
+    connection: wireless
+    netmask: 255.255.255.0
+    default_gateway: 192.168.1.1
+    dns_server:
+      - 192.168.1.3
+      - 8.8.8.8
+    network_interface: wlan0
+  seaside:
+    managed_bookmarks:
+      Your_Homepage: https://seaside-info.org
+      Your_Story: https://seaside-info.org/story
+      Your_Login: https://seaside-info.org/login
+  lakeside:
+    managed_bookmarks:
+      Your_Homepage: https://lakeside-info.org
+      Your_Story: https://lakeside-info.org/story
+      Your_Login: https://lakeside-info.org/login
+CLIENTS:
+  CC-44-B8-54-20-43: # Client under the stairs and around the corner
+    ip_address: 192.168.1.1
+    groups:
+      - internal
+      - lakeside
+  E5-8B-8A-A9-9E-64: # Client currently on Mars
+    ip_address: 192.168.1.2
+    groups:
+      - external
+      - seaside
