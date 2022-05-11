@@ -39,10 +39,12 @@ CLIENTS:
   CC-44-B8-54-20-43: # Client under the stairs and around the corner
     ip_address: 192.168.1.1
     default_gateway: 192.168.1.1
+    connection: wired
   E5-8B-8A-A9-9E-64: # Client currently on Mars
     ip_address: 192.168.1.2
     default_gateway: 192.168.1.1
     netmask: 255.255.255.0
+    connection: wired
   abcd1234: # Client currently on Mars
     ip_address: 192.168.1.3
     default_gateway: 192.168.1.1

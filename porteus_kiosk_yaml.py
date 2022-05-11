@@ -5,7 +5,8 @@ import os
 from ruamel.yaml import YAML, YAMLError
 from pathlib import Path
 from tabulate import tabulate
-import json
+import inflect
+from pprint import pprint
 
 
 def main():
@@ -35,10 +36,10 @@ def generate_result(file):
     result = {}
     # Loop through clients
     for client_name, client_data in file["CLIENTS"].items():
-        # client_data = populate_with_group(client_data, file["GROUPS"])
+        client_data = populate_with_group(
+            client_data, file["GROUPS"]
+        )  # TODO find out how best to structure expanding/formatting/filtering this data (multiple functions)
         result.update({client_name: client_data})
-        # somehow find out if all clients have any entries among them that ALL share, these *could* be moved to GLOBAL (maybe just alert user?)
-        # return result
     #     config_dict = result.values()
     #     common_configs = set.intersection(*tuple(set(d.keys()) for d in config_dict))
     #     identical_configs = [
@@ -48,7 +49,16 @@ def generate_result(file):
     #     ]
 
     # print("yes")
+    warn_global(result)
 
+    return result
+
+
+def warn_global(result):
+    """
+    Alerts the user if one or more key:value pairs are shared amongst ALL clients,
+    and are therefore candidates to be made GLOBAL configs.
+    """
     key_list = set(
         [
             key
@@ -64,9 +74,13 @@ def generate_result(file):
         for key, val in by_key.items()
         if all(item == [v for v in val if v is not None][0] for item in val)
     }
-    print(common_key_vals)
-
-    return result
+    p = inflect.engine()
+    print(
+        f"The following {p.plural('setting',len(common_key_vals))} {p.plural('is',len(common_key_vals))} shared among all clients."
+    )
+    for key, value in common_key_vals.items():
+        print(f"  - {key}: {value}")
+    print("Consider making these configs GLOBAL.")
 
 
 def populate_with_group(client, groups):
