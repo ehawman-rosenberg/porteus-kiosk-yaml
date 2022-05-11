@@ -7,7 +7,7 @@ GLOBAL:
     - uefi.zip
     - fonts.zip
 GROUPS:
-  wired:
+  internal:
     enable_file_protocol: yes
     allow_icmp_protocol: yes
     connection: wired
@@ -38,11 +38,12 @@ GROUPS:
 CLIENTS:
   CC-44-B8-54-20-43: # Client under the stairs and around the corner
     ip_address: 192.168.1.1
-    groups:
-      - internal
-      - lakeside
+    default_gateway: 192.168.1.1
   E5-8B-8A-A9-9E-64: # Client currently on Mars
     ip_address: 192.168.1.2
-    groups:
-      - external
-      - seaside
+    default_gateway: 192.168.1.1
+    netmask: 255.255.255.0
+  abcd1234: # Client currently on Mars
+    ip_address: 192.168.1.3
+    default_gateway: 192.168.1.1
+    connection: wired
