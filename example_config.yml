@@ -7,7 +7,7 @@ GLOBAL:
     - uefi.zip
     - fonts.zip
 GROUPS:
-  internal:
+  wired:
     enable_file_protocol: yes
     allow_icmp_protocol: yes
     connection: wired
@@ -17,7 +17,7 @@ GROUPS:
       - 192.168.1.3
       - 8.8.8.8
     network_interface: eth0
-  external:
+  wireless:
     connection: wireless
     netmask: 255.255.255.0
     default_gateway: 192.168.1.1
@@ -40,12 +40,20 @@ CLIENTS:
     ip_address: 192.168.1.1
     default_gateway: 192.168.1.1
     connection: wired
+    groups:
+      - wired
+      - seaside
   E5-8B-8A-A9-9E-64: # Client currently on Mars
     ip_address: 192.168.1.2
     default_gateway: 192.168.1.1
     netmask: 255.255.255.0
-    connection: wired
-  abcd1234: # Client currently on Mars
+    connection: wireless
+    groups:
+      - wired
+      - lakeside
+  abcd1234: # Client currently on Venus
     ip_address: 192.168.1.3
     default_gateway: 192.168.1.1
-    connection: wired
+    groups:
+      - wired
+      - seaside
