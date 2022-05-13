@@ -5,7 +5,88 @@ from ruamel.yaml import YAML, YAMLError
 from pathlib import Path
 from tabulate import tabulate
 import inflect
-import clipops
+
+
+class Client:
+    """A Client object. Has a name and a list of values."""
+
+    def __init__(self, name, values):
+        self.name = name
+        self.values = values
+
+
+class GlobalClient(Client):
+    def __init__(self):
+        super().__init__()
+
+
+class Group:
+    """A Group object. has a name and a list of values."""
+
+    def __init__(self, name, values):
+        self.name = name
+        self.values = values
+
+
+class Config:
+    """A configuration. Consists of a name and value"""
+
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def __new__(cls, type):
+        subclass_map = {subclass.feature: subclass for subclass in cls.__subclasses__()}
+        subclass = subclass_map[type]
+        instance = super(Config, subclass).__new__(subclass)
+        return instance
+
+    def ini_value(self):
+        raise NotImplementedError
+
+
+class ConfigSimple(Config):
+    """A Config simple datatype as a value"""
+
+    type = dict
+
+    def __init__(self):
+        super().__init__()
+
+    def ini_value(self):
+        return f"{self.name}: {self.value}"
+
+
+class ConfigDict(Config):
+    """A Config with a Dict as a value"""
+
+    def __init__(self):
+        super().__init__()
+
+    def ini_value(self):
+        new_line = f"{self.name}="
+        for k, v in self.value.items():
+            new_line += f"{v}|{k}| "
+        new_line = new_line[:-1]  # Trim extra space
+        return new_line
+
+
+class ConfigSequence(Config):
+    """A Config with a sequence (List/Tuple) as a value"""
+
+    def __init__(self):
+        super().__init__()
+
+    def ini_value(self):
+        new_line = f"{self.name}="
+        if self.name in ("homepage", "toggle_tabs"):
+            delim = "|"
+        else:
+            delim = " "
+        for i in self.value:
+            new_line += f"{i}{delim}"
+        new_line = new_line[:-1]  # Trim the unneeded last pipe
+        return new_line
 
 
 def main():
@@ -44,7 +125,11 @@ def client_to_ini(name, configs):
     """Takes a client name and configs dict, returns a client formatted as Porteus Kiosk ini"""
     result = ""
     result += f"[[ {name.upper()} ]]\n"
-    for key, value in dict(sorted(configs.items())).items():
+    configs_dict = dict(sorted(configs.items()))
+    if name == "GLOBAL":
+        kiosk_config = configs_dict.pop("kiosk_config")
+        result += f"kiosk_config={kiosk_config}\n"
+    for key, value in configs_dict.items():
         if type(value) == dict:
             new_line = f"{key}="
             for k, v in value.items():
