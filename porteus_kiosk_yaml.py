@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+# TODO Finish implementing class model
+# TODO create ultimate example yml (with every single option)
+# TODO create lists of mutually inclusive/exclusive options
+# TODO Identify cases where lists/dicts need to be appended vs overwritten (additional_components)
+# TODO create Schema
+
 from ruamel.yaml import YAML, YAMLError
 from pathlib import Path
 from tabulate import tabulate
