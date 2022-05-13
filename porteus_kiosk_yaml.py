@@ -3,9 +3,10 @@
 
 
 # TODO Finish implementing class model
-# TODO create ultimate example yml (with every single option)
-# TODO create lists of mutually inclusive/exclusive options
 # TODO Identify cases where lists/dicts need to be appended vs overwritten (additional_components)
+# TODO create ultimate example yml (with every single config)
+# TODO create lists of mutually inclusive/exclusive configs
+# TODO puzzle out how to do mutually inclusive/exclusive configs across GLOBAL+client
 # TODO create Schema
 
 from ruamel.yaml import YAML, YAMLError
