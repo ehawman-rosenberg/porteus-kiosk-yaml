@@ -26,11 +26,19 @@ GROUPS:
       - 8.8.8.8
     network_interface: wlan0
   seaside:
+    homepage:
+      - https://seaside-info.org
+      - https://seaside-info.org/story
+      - https://seaside-info.org/login
     managed_bookmarks:
       Your_Homepage: https://seaside-info.org
       Your_Story: https://seaside-info.org/story
       Your_Login: https://seaside-info.org/login
   lakeside:
+    homepage:
+      - https://lakeside-info.org
+      - https://lakeside-info.org/story
+      - https://lakeside-info.org/login
     managed_bookmarks:
       Your_Homepage: https://lakeside-info.org
       Your_Story: https://lakeside-info.org/story
