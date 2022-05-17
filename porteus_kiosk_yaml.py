@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-# TODO Finish implementing class model
-# TODO Identify cases where lists/dicts need to be appended vs overwritten (additional_components)
 # TODO create ultimate example yml (with every single config)
 # TODO create lists of mutually inclusive/exclusive configs
 # TODO puzzle out how to do mutually inclusive/exclusive configs across GLOBAL+client
 # TODO create Schema
+# TODO Finish implementing class model
+# TODO Identify cases where lists/dicts need to be appended vs overwritten (additional_components)
 
 from ruamel.yaml import YAML, YAMLError
 from pathlib import Path
@@ -43,7 +42,7 @@ class Config:
         self.name = name
         self.value = value
 
-    def __new__(cls, type):
+    def __new__(cls, name, type):
         subclass_map = {subclass.feature: subclass for subclass in cls.__subclasses__()}
         subclass = subclass_map[type]
         instance = super(Config, subclass).__new__(subclass)
@@ -62,7 +61,7 @@ class ConfigSimple(Config):
         super().__init__()
 
     def ini_value(self):
-        return f"{self.name}: {self.value}"
+        return f"{self.name}={self.value}"
 
 
 class ConfigDict(Config):
